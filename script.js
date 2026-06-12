@@ -1404,6 +1404,15 @@ function setupEcoGame() {
         { speaker: "player", text: "Nggak usah. Aku nemuin botol plastik minuman energi impor dibuang di sana. Kamu lihat siapa pelakunya?" },
         { speaker: "rama", text: "Hah?! Botol plastik? Di taman percontohan? Wah, itu merusak banget sih! Aku malah nggak lihat sama sekali." }
       ],
+      next: "interogasi_rama_choices"
+    },
+
+    interogasi_rama_choices: {
+      scene: "rama",
+      sceneText: "🎥 Di dekat air mancur — Rama sibuk dengan kameranya",
+      dialogs: [
+        { speaker: "player", text: "Masih ada yang perlu kutanyakan..." }
+      ],
       choices: [
         { text: "🎒 \"Boleh aku cek isi tasmu?\"", goto: "rama_tas" },
         { text: "🥤 \"Gimana kamu bisa nggak lihat?\"", goto: "rama_alasan" },
@@ -1423,7 +1432,7 @@ function setupEcoGame() {
         { speaker: "narrator", text: "🔍 Petunjuk: Rama mengumpulkan sampah dari luar taman, tapi jaringnya bolong." }
       ],
       onEnter: () => addClue("🎒 Jaring sampah Rama bolong. Mungkin sampahnya berjatuhan?"),
-      next: "interogasi_rama"
+      next: "interogasi_rama_choices"
     },
 
     rama_alasan: {
@@ -1436,7 +1445,7 @@ function setupEcoGame() {
         { speaker: "narrator", text: "🔍 Petunjuk: Rama melihat Kheren berlari buru-buru membawa kantong sampah." }
       ],
       onEnter: () => addClue("👀 Rama melihat Kheren berlari buru-buru membawa kantong sampah kafe."),
-      next: "interogasi_rama"
+      next: "interogasi_rama_choices"
     },
 
     /* ===== INTEROGASI KHEREN ===== */
@@ -1450,6 +1459,15 @@ function setupEcoGame() {
         { speaker: "kheren", text: "Eh, {nama}! Iya nih. Ada apa ya?" },
         { speaker: "player", text: "Tadi ada yang ninggalin botol plastik minuman energi di dekat sini. Kamu lihat sesuatu?" },
         { speaker: "kheren", text: "Botol minuman energi? Kafe kita kan jengkel banget sama hal gitu. Kita cuma pakai kemasan biodegradable." }
+      ],
+      next: "interogasi_kheren_choices"
+    },
+
+    interogasi_kheren_choices: {
+      scene: "kheren",
+      sceneText: "☕ Di bangku taman — Kheren terlihat kelelahan",
+      dialogs: [
+        { speaker: "player", text: "Ada hal lain yang ingin kupastikan..." }
       ],
       choices: [
         { text: "🏃 \"Kata Rama kamu tadi lari buru-buru?\"", goto: "kheren_lari" },
@@ -1470,7 +1488,7 @@ function setupEcoGame() {
         { speaker: "narrator", text: "🔍 Petunjuk: Farrel menyerempet Kheren sambil memegang minuman botol." }
       ],
       onEnter: () => addClue("👀 Kheren diserempet Farrel yang sedang memegang botol minuman."),
-      next: "interogasi_kheren"
+      next: "interogasi_kheren_choices"
     },
 
     kheren_nota: {
@@ -1483,7 +1501,7 @@ function setupEcoGame() {
         { speaker: "narrator", text: "🔍 Petunjuk: Kheren dan kafenya memiliki alibi kuat soal jenis minuman tersebut." }
       ],
       onEnter: () => addClue("🧾 Kafe Kheren tidak menjual minuman energi impor sama sekali."),
-      next: "interogasi_kheren"
+      next: "interogasi_kheren_choices"
     },
 
     /* ===== INTEROGASI FARREL ===== */
@@ -1496,6 +1514,15 @@ function setupEcoGame() {
         { speaker: "farrel", text: "Yo, pak petugas! Santai dulu lah." },
         { speaker: "player", text: "Ada botol plastik minuman energi impor yang dibuang sembarangan di taman. Itu punya kamu?" },
         { speaker: "farrel", text: "Hah? Minuman energi impor? Gile aja, duit dari mana gue beli gituan. Gue minum air putih doang bawa dari rumah." }
+      ],
+      next: "interogasi_farrel_choices"
+    },
+
+    interogasi_farrel_choices: {
+      scene: "farrel",
+      sceneText: "🛹 Di skatepark mini — Farrel sedang memperbaiki rodanya",
+      dialogs: [
+        { speaker: "player", text: "Aku butuh penjelasan lagi..." }
       ],
       choices: [
         { text: "💦 \"Tapi Kheren bilang kamu bawa botol minuman?\"", goto: "farrel_botol" },
@@ -1515,7 +1542,7 @@ function setupEcoGame() {
         { speaker: "narrator", text: "🔍 Petunjuk: Botol yang dipegang Farrel ternyata adalah tumbler pribadinya yang berwarna mirip." }
       ],
       onEnter: () => addClue("💦 Botol yang dilihat Kheren ternyata tumbler milik Farrel."),
-      next: "interogasi_farrel"
+      next: "interogasi_farrel_choices"
     },
 
     farrel_serempet: {
@@ -1530,7 +1557,7 @@ function setupEcoGame() {
         { speaker: "narrator", text: "🔍 Petunjuk: Farrel melihat ada sesuatu yang jatuh dari tas Rama saat Rama berjalan mundur." }
       ],
       onEnter: () => addClue("🛹 Farrel melihat ada benda jatuh dari tas Rama saat Rama membuat vlog."),
-      next: "interogasi_farrel"
+      next: "interogasi_farrel_choices"
     },
 
     /* ===== KEMBALI PILIH ===== */
