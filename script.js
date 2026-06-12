@@ -1728,6 +1728,11 @@ function setupEcoGame() {
     const fullText = replaceVars(text);
     dialogText.textContent = "";
     if (dialogNext) dialogNext.hidden = true;
+    
+    if (state.typeTimer) {
+      clearTimeout(state.typeTimer);
+    }
+    
     state.isTyping = true;
     let i = 0;
 
@@ -1813,7 +1818,14 @@ function setupEcoGame() {
     typeText(dialog.text);
   }
 
-  function advanceDialog() {
+  function advanceDialog(e) {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    if (Date.now() - (state.lastInteraction || 0) < 300) return;
+    state.lastInteraction = Date.now();
+
     if (skipTypewriter()) return;
 
     state.dialogIndex++;
@@ -1838,7 +1850,10 @@ function setupEcoGame() {
 
     // Bind events
     choicesEl.querySelectorAll(".game-choice-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        state.lastInteraction = Date.now();
         const goto = btn.dataset.goto;
         choicesEl.hidden = true;
         if (goto && scenes[goto]) {
@@ -1859,9 +1874,23 @@ function setupEcoGame() {
   }
 
   /* ── Game Controls ── */
-  function startGame() {
+  function startGame(e) {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    
+    // Prevent starting if already playing (hides bug where spamming button garbles text)
+    if (!setupScreen.hidden && state && state.isTyping) {
+      return; 
+    }
+
     const name = nameInput?.value.trim() || "Petugas";
     const gender = document.querySelector('input[name="playerGender"]:checked')?.value || "male";
+
+    if (state && state.typeTimer) {
+      clearTimeout(state.typeTimer);
+    }
 
     state = {
       playerName: name,
@@ -1873,6 +1902,7 @@ function setupEcoGame() {
       dialogIndex: 0,
       isTyping: false,
       typeTimer: null,
+      lastInteraction: Date.now(),
       totalScenes: 12,
       scenesVisited: 0
     };
@@ -1891,8 +1921,13 @@ function setupEcoGame() {
     runScene("prolog");
   }
 
-  function resetGame() {
-    clearTimeout(state.typeTimer);
+  function resetGame(e) {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    if (state && state.typeTimer) clearTimeout(state.typeTimer);
+    if (state) state.isTyping = false;
     setupScreen.hidden = false;
     viewport.hidden = true;
     if (endingScreen) endingScreen.hidden = true;
@@ -1909,7 +1944,7 @@ function setupEcoGame() {
 
   if (nameInput) {
     nameInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") startGame();
+      if (e.key === "Enter") startGame(e);
     });
   }
 
@@ -1924,7 +1959,7 @@ function setupEcoGame() {
     if (!viewport || viewport.hidden) return;
     if (e.key === " " || e.key === "Enter") {
       e.preventDefault();
-      advanceDialog();
+      advanceDialog(e);
     }
   });
 }
